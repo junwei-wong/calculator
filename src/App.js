@@ -1,29 +1,31 @@
 import React, {useState} from "react"
 import "./App.css"
 function App () {
-  const [output, changeOutput] = useState('')
-  const calculatorButtonsArray = ['(',  ')', '%', 'AC', '7', '8', '9','/','4','5','6','*','1','2','3','-','0','.','=','+']
+  const [equation, changeEquation] = useState("")
+  const [output, changeOutput] = useState("")
+  const calculatorButtonsArray = ["(",  ")", "<", "AC", "7", "8", "9","/","4","5","6","*","1","2","3","-","0",".","=","+"]
 
   const handleOnClick = buttonValue => {
     switch(buttonValue) {
-      case "AC": changeOutput(''); break;
-      case "=": changeOutput(evaluateResults(output)); break;
-      default: changeOutput(output+buttonValue)
+      case "AC": changeEquation(""); changeOutput(""); break;
+      case "=": changeOutput(evaluateResults(equation)); break;
+      case "<": changeEquation(equation.substring(0, equation.length - 1)); break;
+      default: changeEquation(equation+buttonValue)
     }
   }
 
-  const evaluateResults = output => {
-    let results = output
-    if(!output === ''){
-      for(const i of output){
+  const evaluateResults = equationString => {
+    let results = ""
+    if(!(equationString === "" || !equation)){
+      for(const i of equationString){
         if(!calculatorButtonsArray.includes(i))
-          return 'HACKER'
+          return "HACKER"
       }
       try{
-        results = eval(output)
+        results = eval(equationString)
       }
       catch{
-        alert('invalid equation')
+        alert("invalid equation")
       }
     }
     return results
@@ -31,9 +33,12 @@ function App () {
 
   return (
     <div className="container">
-      <label htmlFor="output" className="results">{output}</label>
+    <div className="output-panel">
+      <label  className="equation">{equation? equation : ""}</label>
+      <label htmlFor="output" className="results">{output? output : ""}</label>
+    </div>
       <div className="buttons-panel">
-        {calculatorButtonsArray.map(button=><button className="button" key={button} onClick={event => handleOnClick(button)}>{button}</button>)} </div>
+        {calculatorButtonsArray.map(button=><button className="button" key={button} id={`button-${button}`} onClick={event => handleOnClick(button)}>{button}</button>)} </div>
     </div>
   )
 }
