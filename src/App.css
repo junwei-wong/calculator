@@ -4,7 +4,7 @@
   width: 400px;
   border-style: solid;
   border-radius: 10px;
-  margin: auto auto auto auto;
+  margin: 4px auto auto auto;
   display: flex;
   background-color: dimgray;
   flex-direction: column;
@@ -23,17 +23,17 @@
   justify-content: flex-start;
   display: flex;
   height: 50%;
-  font-size: 35px;
-  padding-left: 8px;
+  font-size: 38px;
+  padding: 0 8px;
 }
 
 .results {
   justify-content: flex-end;
   display: flex;
   height: 50%;
-  font-size: 45px;
+  font-size: 42px;
+  padding: 0 8px;
   font-weight: bold;
-  padding-right: 4px;
 }
 
 #button-AC {
