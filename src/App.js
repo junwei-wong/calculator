@@ -8,9 +8,9 @@ function App () {
   const handleOnClick = buttonValue => {
     switch(buttonValue) {
       case "AC": changeEquation(""); changeOutput(""); break;
-      case "=": changeOutput(evaluateResults(equation)); break;
-      case "<": changeEquation(equation.substring(0, equation.length - 1)); break;
-      default: changeEquation(equation+buttonValue)
+      case "=": changeOutput(evaluateResults(equation).toString().substr(0,15)); break;
+      case "<": changeEquation(equation.toString().substring(0, equation.length - 1)); break;
+      default: changeEquation((equation+buttonValue).toString().substr(0,15))
     }
   }
 
@@ -33,12 +33,13 @@ function App () {
 
   return (
     <div className="container">
-    <div className="output-panel">
-      <label  className="equation">{equation? equation : ""}</label>
-      <label htmlFor="output" className="results">{output? output : ""}</label>
-    </div>
+      <div className="output-panel">
+        <label className="equation">{equation? equation : ""}</label>
+        <label className="results">{output? output  : ""}</label>
+      </div>
       <div className="buttons-panel">
-        {calculatorButtonsArray.map(button=><button className="button" key={button} id={`button-${button}`} onClick={event => handleOnClick(button)}>{button}</button>)} </div>
+        {calculatorButtonsArray.map(button=><button className="button" key={button} id={`button-${button}`} onClick={event => handleOnClick(button)}>{button}</button>)} 
+      </div>
     </div>
   )
 }
