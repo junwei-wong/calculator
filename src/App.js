@@ -1,55 +1,64 @@
 import React, { useState } from "react";
 import { calculatorButtonsArray } from "./config";
 import "./App.css";
+
 function App() {
   const [equation, changeEquation] = useState("");
   const [output, changeOutput] = useState("");
 
   const handleOnClick = (buttonValue) => {
-    switch (buttonValue) {
-      case "AC":
-        changeEquation("");
-        changeOutput("");
-        break;
-      case "=":
-        changeOutput(evaluateResults(equation).toString().substr(0, 15));
-        break;
-      case "<":
-        changeEquation(equation.toString().substring(0, equation.length - 1));
-        break;
-      default:
-        changeEquation((equation + buttonValue).toString().substr(0, 15));
-    }
+    if (calculatorButtonsArray.includes(buttonValue))
+      switch (buttonValue) {
+        case "AC":
+          changeEquation("");
+          changeOutput("");
+          break;
+        case "=": {
+          if (evaluateResults(equation))
+            changeOutput(evaluateResults(equation).toString().substring(0, 15));
+          break;
+        }
+        case "<":
+          changeEquation((preEquation) =>
+            preEquation.toString().substring(0, preEquation.length - 1)
+          );
+          break;
+        default:
+          changeEquation(
+            (preEquation) =>
+              preEquation + buttonValue.toString().substring(0, 15)
+          );
+      }
   };
 
   const evaluateResults = (equationString) => {
-    let results = "";
-    if (!(equationString === "" || !equation)) {
-      for (const i of equationString) {
-        if (!calculatorButtonsArray.includes(i)) return "HACKER";
-      }
+    if (equationString) {
       try {
-        results = eval(equationString);
+        return eval(equationString);
       } catch {
         alert("invalid equation");
+        return false;
       }
     }
-    return results;
   };
 
   return (
     <div className="container">
       <div className="output-panel">
-        <label className="equation">{equation ? equation : ""}</label>
-        <label className="results">{output ? output : ""}</label>
+        <label className="equation invisible-scrollbar">
+          {equation ? equation : ""}
+        </label>
+        <label className="results invisible-scrollbar">
+          {output ? output : ""}
+        </label>
       </div>
       <div className="buttons-panel">
         {calculatorButtonsArray.map((button) => (
           <button
-            className="button"
+            type="button"
+            className={`button button-${button}`}
             key={button}
-            id={`button-${button}`}
-            onClick={(event) => handleOnClick(button)}
+            onClick={() => handleOnClick(button)}
           >
             {button}
           </button>

@@ -36,9 +36,9 @@
   font-weight: bold;
 }
 
-#button-AC {
-  background-color: red;
-  color: white;
+.button-AC {
+  background-color: red !important;
+  color: white !important;
 }
 
 .buttons-panel {
@@ -59,4 +59,8 @@
   background-color: lightslategrey;
   color: white;
   border-radius: 20px;
+}
+
+.invisible-scrollbar::-webkit-scrollbar {
+  display: none;
 }
